@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionListener;
 import javax.servlet.http.Part;
 
 // enctype="multipart/form-data"는 서블릿 3.0부터는 Part 인터페이스 객체로 접근
@@ -58,6 +57,25 @@ public class UserServlet extends HttpServlet {
 			File f = new File(pathname);
 			if(!f.exists()) {
 				f.mkdirs();
+			}
+			
+			for(Part p : req.getParts()) {
+				String paramName = p.getName();
+				String contentType = p.getContentType();
+				
+				//if(contentType != null && contentType.toLowerCase().startsWith("multipart/")) {
+				if(contentType != null) {
+					long size = p.getSize();
+					String filename = getOriginalFilename(p);
+					String fullpathname = pathname + File.separator + filename;
+					p.write(fullpathname);
+					
+					System.out.println("파일명 : " + filename + ", 크기 : " + size);
+				} else {
+					String value = getParameterValue(p.getInputStream());
+					
+					System.out.println(paramName + " : " + value);
+				}
 			}
 			
 			forward(req, resp, "/WEB-INF/views/user/write_ok.jsp");

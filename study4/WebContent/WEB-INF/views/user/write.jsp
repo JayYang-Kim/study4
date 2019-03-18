@@ -12,7 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form name="myForm" method="post" enctype="multipart/form-data" action="<%=cp%>/upload/write_ok.ok">
+	<form name="myForm" method="post" enctype="multipart/form-data" action="<%=cp%>/user/write_ok.ok">
 		<p>
 			<span>작성자 : </span>
 			<input type="text" name="name"/>
